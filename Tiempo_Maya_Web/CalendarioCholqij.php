@@ -4,7 +4,7 @@
     $query;
     include_once 'buscar/conseguir_nahual.php';
     include_once 'buscar/conseguir_energia.php';
-    header("location: CalendarioCholqij.php"."?nahual=".$query."&nivel=".$nivel."#".$query);
+    header("location: CalendarioCholqij.php"."?nahual=".$query."&nivel=".$nivel."#nahual".$query);
   }
 ?>
 <!DOCTYPE html>

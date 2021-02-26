@@ -11,17 +11,17 @@
         <li><a href="CalendarioHaab.php">Calendario Haab</a></li>
         <li><a href="CalendarioCholqij.php">Calendario Cholquij</a></li>
         <li><a href="#">Rueda Calendarica</a></li>
-        <li><a href="nahuales.php">Nahuales</a></li>
-        <?php 
+        <li><a href="CalendarioCholqij.php#nahuales">Nahuales</a></li>
+        <?php
         if (isset($_SESSION['nombre'])) {
             echo '<li><a href="cerrarSesion.php">Cerrar Sesion</a></li>';
         }else{
             echo '<li><a href="iniciarSesion.php">Iniciar Sesion</a></li>
             <li><a href="#">Registrarse</a></li>';
         }
-        
+
         ?>
-        
+
       </ul>
     </nav>
   </div>

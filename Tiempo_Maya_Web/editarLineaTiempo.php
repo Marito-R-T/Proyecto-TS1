@@ -1,14 +1,14 @@
 <?php
 session_start();
 //$conexion = new mysqli("servidor","usuario","clave","bd")
-$conexion = new mysqli("localhost", "administrador", "Admin.123321", "LineaTiempo");
+$conexion;
+include_once 'conexion.php';
 $sql = "SELECT * FROM Categoria ";
 //$sql .= " ORDER BY nombre";
 $sql2 = "CALL mostrarHechosPor(".$_POST['idHecho'].");";
 $resultado = $conexion->query($sql2);
-$conexion2 = new mysqli("localhost", "administrador", "Admin.123321", "LineaTiempo");
-$categorias = $conexion2->query($sql);
-foreach ($resultado as $miHecho) : 
+$categorias = $conexion->query($sql);
+foreach ($resultado as $miHecho) :
     $hecho = $miHecho;
 endforeach;
 
@@ -80,7 +80,7 @@ endforeach;
                             <input type="file" accept=".jpg,.png" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" name="imagen">
                             <label class="custom-file-label" id="path" for="inputGroupFile04">Elegir Archivo</label>
                         </div>
-                    </div> 
+                    </div>
                     <button type="submit" class="btn btn-primary mb-2" style="margin-left: 45%; margin-top:30px;">Publicar</button>
                 </form>
             </div>

@@ -15,14 +15,14 @@ import modelos.objetos.Imagen;
  * @author jose_
  */
 public class ImagenDb {
-    
+
     public void crear(Imagen imagen){}
     public void modificar(Imagen imagen){}
     public void eliminar(int id){}
-    
+
     public Imagen getImagen(int id){
         try {
-            PreparedStatement statement = ConexionDb.conexion.prepareStatement("SELECT * FROM rutaImagen WHERE id=?;");
+            PreparedStatement statement = ConexionDb.conexion.prepareStatement("SELECT * FROM rutaimagen WHERE id=?;");
             statement.setInt(1, id);
             ResultSet resultado = statement.executeQuery();
             if(resultado.next()) return instanciarDeResultSet(resultado);
@@ -31,7 +31,7 @@ public class ImagenDb {
         }
         return null;
     }
-    
+
     private Imagen instanciarDeResultSet(ResultSet resultado) throws SQLException{
         return new Imagen(
                 resultado.getInt("id"),
