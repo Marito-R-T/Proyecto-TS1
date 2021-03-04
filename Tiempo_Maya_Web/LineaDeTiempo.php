@@ -2,7 +2,7 @@
 session_start();
 
 //$conexion = new mysqli("servidor","usuario","clave","bd")
-$conexion = new mysqli("localhost", "administrador", "Admin.123321", "LineaTiempo");
+include_once 'conexion.php';
 /*$sql =  "SELECT * FROM (";
 $sql .= "  SELECT MAX(fecha) as fecha, idHechoHistorico as id ";
 $sql .= "  FROM Edicion ";
@@ -10,10 +10,9 @@ $sql .= "  GROUP BY Edicion.idHechoHistorico ";
 $sql .= ") a";
 $sql .= "GROUP BY a.id";
 */
-$sql = "CALL mostrarHechos";
+$sql = "SELECT * FROM hechohistorico;";
 $resultado = $conexion->query($sql);
 $numfilas = $resultado->num_rows;
-echo $numfilas;
 $idhecho = -1;
 ?>
 
@@ -41,9 +40,10 @@ $idhecho = -1;
         }
       </script>
       -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
       <link rel="stylesheet" href="css/LineaTiempo.css">
       <link rel="stylesheet" href="css/style.css" >
   </head>
@@ -53,12 +53,28 @@ $idhecho = -1;
               <?php include 'BarradeNavegacion.php'; ?>>
           </header>
       </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
       <div class="container">
         <!-- # component starts -->
           <div class="pres-timeline" id="this-timeline">
         <!-- ###   -->
         <!--   <div class="periods-section"> -->
             <div class="periods-container">
+              <?php foreach ($resultado as $hecho) { ?>
+                <section class="period-single" period="<?php echo "period" . $hecho['id']; ?>">
+                  <h4 class="year"><?php echo $hecho['fechaInicio']; ?></h4>
+                  <h2 class="title"><?php echo $hecho['titulo']; ?></h2>
+                  <h3><?php echo $hecho['fechaInicio'] . " -> " . $hecho['fechaFinalizacion']; ?></h3>
+                  <p><?php echo $hecho['descripcion']; ?></p>
+                </section>
+              <?php } ?>
+              <!--
               <section class="period-single" period="period1">
                 <h4 class="year">181x-181x</h4>
                 <h2 class="title">1 Lorem ipsum dolor sit amet, consectetur adipisicing.</h2>
@@ -75,6 +91,7 @@ $idhecho = -1;
                 <h2 class="title">3 Lorem ipsum dolor sit amet, consectetur adipisicing.</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium doloremque, laboriosam officia facere eligendi quam reiciendis, rem explicabo dolores tenetur libero minus, facilis quibusdam. Consectetur amet beatae fuga, architecto magnam.</p>
               </section>
+              -->
               <div class="btn-back"></div>
               <div class="btn-next"></div>
             </div>
@@ -92,6 +109,23 @@ $idhecho = -1;
         <!-- ### -->
         <!--   <div class="cards-section"> -->
             <div class="cards-container">
+              <?php foreach ($resultado as $hecho) {
+                $subHecho = "SELECT * FROM subHechoHistorico WHERE idHecho=".$hecho['idHecho'];
+                $resultado2 = $conexion->query($subHecho);
+                foreach ($resultado2 as $sub) { ?>
+                <section class="card-single" period="<?php echo "period".$hecho['id']; ?>">
+                  <h4 class="year"><?php echo $sub['fecha']; ?></h4>
+                  <h2 class="title"><?php echo $sub['titulo']; ?></h2>
+                  <div class="content">
+                    <?php if (!is_null($sub['urlImagen'])):
+                      header("Content-type: image/jpg");
+                      echo $sub['urlImagen'];
+                       endif; ?>
+                    <p><?php echo $sub['texto']; ?></p>
+                  </div>
+                </section>
+              <?php } } ?>
+              <!--
               <section class="card-single active" period="period1">
                 <h4 class="year">1816</h4>
                 <h2 class="title">Lorem ipsum dolor sit amet.</h2>
@@ -112,7 +146,7 @@ $idhecho = -1;
                 <h4 class="year">1816</h4>
                 <h2 class="title">Lorem ipsum dolor sit amet.</h2>
                 <div class="content">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A tempora blanditiis ut voluptas nisi labore quos iste totam obcaecati modi rerum iusto, voluptate odio commodi ratione amet illum dicta accusamus, ipsum ea vero neque enim, recusandae dignissimos? Quae ea aspernatur dolor atque, ipsum repellendus. Repudiandae culpa magnam, doloribus exercitationem illo impedit quasi officia, veniam vero molestiae sunt dolorem, excepturi ullam dicta sed amet provident ut soluta pariatur magni! Fugiat eveniet suscipit praesentium culpa aperiam ab nulla, exercitationem atque quod, labore, qui quaerat nihil nam laborum aliquam! Nesciunt dignissimos eaque impedit ex, architecto minima ad, temporibus rem possimus consequatur doloremque, fuga?</p>
+                  <p>pariatur magni! Fugiat eveniet suscipit praesentium culpa aperiam ab nulla, exercitationem atque quod, labore, qui quaerat nihil nam laborum aliquam! Nesciunt dignissimos eaque impedit ex, architecto minima ad, temporibus rem possimus consequatur doloremque, fuga?</p>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore vitae sint dolore, officia esse! A recusandae nemo illum rem eos iusto repellendus, voluptatibus tempora nulla voluptatem officia inventore ea modi.</p>
                 </div>
               </section>
@@ -131,11 +165,30 @@ $idhecho = -1;
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore vitae sint dolore, officia esse! A recusandae nemo illum rem eos iusto repellendus, voluptatibus tempora nulla voluptatem officia inventore ea modi.</p>
                 </div>
               </section>
+            -->
             </div>
         <!--   </div> -->
         <!-- ###   -->
           </div>
         <!-- # component ends -->
+      </div>
+      <div class="container">
+        <div class="d-flex bd-highlight">
+          <div class="p-2 flex-fill bd-highlight">
+            <form class="" action="evento_principal.php" method="post">
+              <div class="d-grid gap-2">
+                <button class="btn btn-outline-secondary" type="submit">Agregar Evento Principal</button>
+              </div>
+            </form>
+          </div>
+          <div class="p-2 flex-fill bd-highlight">
+            <form class="" action="evento_secundario.php" method="post">
+              <div class="d-grid gap-2">
+                <button class="btn btn-outline-secondary" type="submit">Agregar Evento Secundario</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

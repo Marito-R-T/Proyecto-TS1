@@ -1,6 +1,3 @@
-<?php
-  $conexion2 = new mysqli("localhost", "root", "Mario26Moises.", "CALENDARIO_MAYA");
- ?>
 <div>
   <h3 class="section-title" style="  color: #2dc997;"><?php echo $nahual['nombre'];?> <?php if (isset($_GET['nivel']) && ($_GET['nahual'] == $nahual['id'])) {
     echo "Nivel ". $_GET['nivel'];
