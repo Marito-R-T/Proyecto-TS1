@@ -28,6 +28,38 @@ $resultado = $conexion->query($sql);
       <br>
       <br>
       <div class="container">
+        <form class="" action="backend/evento_secundario.php" method="post">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="idHecho">Id Hecho</label>
+            <select class="form-select" id="idHecho" name="idHecho">
+              <?php
+                $queryids = "SELECT id, titulo FROM hechohistorico";
+                $idsHechos=$conexion->query($queryids);
+                foreach ($idsHechos as $id) { ?>
+                  <option value="<?php echo $id['id']; ?>"><?php echo $id['id']." - ".$id['titulo']; ?></option>
+              <?php } ?>
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Fecha</span>
+            <input type="date" class="form-control" name="inputFecha" id="inputFecha" required>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Titulo</span>
+            <input type="text" class="form-control" name="inputTituloS" id="inputTituloS" required>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Texto</span>
+            <textarea class="form-control" aria-label="With textarea" name="textoS" id="textoS" required></textarea>
+          </div>
+          <!--<div class="input-group mb-3">
+            <label class="input-group-text" for="inputImage">Imagen</label>
+            <input type="file" class="form-control" name="inputImage" id="inputImage" accept="image/*">
+          </div>-->
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-success" type="submit">Agregar</button>
+          </div>
+        </form>
       </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </body>

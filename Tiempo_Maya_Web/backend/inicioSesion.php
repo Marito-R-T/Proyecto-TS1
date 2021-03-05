@@ -5,30 +5,32 @@
  $password = $_POST['password'];
 
   // Datos para conectar a la base de datos.
-  $nombreServidor = "localhost";
-  $nombreUsuario = "administrador";
-  $passwordBaseDeDatos = "Admin.123321";
-  $nombreBaseDeDatos = "LineaTiempo";
- 
+  include_once '../conexion.php';
   // Crear conexión con la base de datos.
-  $conn = new mysqli($nombreServidor, $nombreUsuario, $passwordBaseDeDatos, $nombreBaseDeDatos);
-  
-  
+
+
   // Consulta segura para evitar inyecciones SQL.
-     $result = mysqli_query($conn, "SELECT * FROM Usuario WHERE username = '$email' AND password= '$password'");
-     $usuario = $result->fetch_array(MYSQLI_ASSOC);    
-     if(mysqli_num_rows($result )>0){
-        $verRango = "SELECT * from Rol WHERE idRol= ".$usuario['rol'];
-        $rangoRS = mysqli_query($conn, $verRango);
-        $rango = $rangoRS->fetch_array(MYSQLI_ASSOC); 
-        $usuario =  $result->fetch_array(MYSQLI_ASSOC);
-        $_SESSION['nombre'] = $nombreUsuario;
+    $query = "SELECT * FROM usuario WHERE username = '".$email."' AND password= '".$password."'";
+     $result = $conexion->query($query);
+     echo $query;
+     $usuario;
+     if(mysqli_num_rows($result)>0){
+       foreach ($result as $user) {
+         $usuario = $user;
+       }
+        $verRango = "SELECT * from rol WHERE id= ".$usuario['rol'];
+        $rangoRS = $conexion->query($verRango);
+        $rango;
+        foreach ($rangoRS as $rs) {
+          $rango = $rs;
+        }
+        $_SESSION['nombre'] = $usuario['nombre'];
         $_SESSION['rango'] = $rango['tipo'];
         // Guardo en la sesión el rango del usuario.
-      
-            header("Location: ../index.php"); 
+
+        header("Location: ../index.php");
       }else{
-        
+
         echo '
         <head>
           <meta charset="utf-8">
@@ -47,9 +49,9 @@
                 <input name="tupoUser"  value="'.$rango.'" style="display: none;">
                 <button type="submit" class="btn btn-danger btn-lg btn-block" id="boton">regresar</button>
               </form>
-          </div> 
+          </div>
         </body>'; //si no existe el usuario
       }
-    
+
 
 ?>
