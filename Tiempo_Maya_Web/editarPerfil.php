@@ -1,4 +1,18 @@
-
+<?php
+session_start();
+if(!isset($_SESSION['username'])){
+  header("Location: ./index.php");
+}
+include_once 'conexion.php';
+$query = "SELECT * FROM usuario WHERE username='".$_SESSION['username']."'";
+$resultado = $conexion->query($query);
+$user;
+if($resultado->num_rows > 0){
+  $user = $resultado->fetch_array(MYSQLI_ASSOC);
+} else {
+  header("Location: ./index.php");
+}
+ ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -65,79 +79,76 @@
           </div>
         </div>
         <div class="col-xl-6 order-xl-2" style="margin-top: 250px;">
-            <form action="#" method="post">
+            <form action="backend/actualizarSesion.php" method="post">
               <input type="text" value="../perfil.php" name="direccion" hidden/>
-          <div class="card bg-secondary shadow">
-            <div class="card-header bg-white border-0">
-              <div class="row align-items-center">
-                <div class="col-8">
-                  <h3 class="mb-0">Mi cuenta</h3>
+              <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h3 class="mb-0">Mi cuenta</h3>
+                    </div>
+                    <div class="col-4 text-right">
+                      <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-4 text-right">
-                  <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                <div class="card-body">
+
+                    <h6 class="heading-small text-muted mb-4">Informacion de usuario</h6>
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-username">Usuario</label>
+                            <input type="text" required name="usuarioAntiguo"  hidden value="<?php echo $user['username']  ?>" />
+                            <input type="text" required name="username" class="form-control form-control-alternative" placeholder="Username" value="<?php echo $user['username']; ?>" />
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-email">Correo</label>
+                            <input type="email" required name="email" class="form-control form-control-alternative" placeholder="jesse@example.com"  value="<?php echo $user['email']; ?>"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-first-name">Nombre</label>
+                            <input type="text" required name="nombre" class="form-control form-control-alternative" placeholder="Nombre"  value="<?php echo $user['nombre']; ?>"/>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-last-name">Apellido</label>
+                            <input type="text" required name="apellido" class="form-control form-control-alternative" placeholder="Apellido"  value="<?php echo $user['apellido']; ?>"/>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-last-name">contraseña</label>
+                            <input type="password" required name="password" class="form-control form-control-alternative" placeholder="******"  value="<?php echo $user['password']; ?>" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="my-4">
+
+                    <h6 class="heading-small text-muted mb-4">Informacion de contacto</h6>
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-address">Telefono</label>
+                            <input name="telefono" class="form-control form-control-alternative" placeholder="Telefono"  value="<?php echo $user['telefono']; ?>" type="text"/>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <hr class="my-4">
                 </div>
               </div>
-            </div>
-            <div class="card-body">
-
-                <h6 class="heading-small text-muted mb-4">Informacion de usuario</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group focused">
-                        <label class="form-control-label" for="input-username">Usuario</label>
-                            <input type="text" name="usuarioAntiguo"  hidden value="<?php echo $usuario['usuario']  ?>" />
-                        <input type="text" name="usuario" class="form-control form-control-alternative" placeholder="Username" value="Luis Ruiz" />
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">Correo</label>
-                        <input type="email" name="correo" class="form-control form-control-alternative" placeholder="jesse@example.com"  value=" luisRuiz@tiempoMaya.com "/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group focused">
-                        <label class="form-control-label" for="input-first-name">Nombre</label>
-                        <input type="text" name="nombre" class="form-control form-control-alternative" placeholder="Nombre"  value="Luis Eduardo"/>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group focused">
-                        <label class="form-control-label" for="input-last-name">Apellido</label>
-                        <input type="text" name="apellido" class="form-control form-control-alternative" placeholder="Apellido"  value="Guillen Ruiz"/>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group focused">
-                        <label class="form-control-label" for="input-last-name">contraseña</label>
-                        <input type="password" name="password" class="form-control form-control-alternative" placeholder="******"  value="Fatima" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <hr class="my-4">
-
-                <h6 class="heading-small text-muted mb-4">Informacion de contacto</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group focused">
-                        <label class="form-control-label" for="input-address">Telefono</label>
-                        <input name="telefono" class="form-control form-control-alternative" placeholder="Telefono"  value=" +502 52364178 " type="text"/>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-                <hr class="my-4">
-
-
-
-            </div>
-          </div>
             </form>
         </div>
       </div>

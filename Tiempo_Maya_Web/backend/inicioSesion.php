@@ -1,8 +1,8 @@
 <?php
- session_start();
- // Obtengo los datos cargados en el formulario de login.
- $email = $_POST['user'];
- $password = $_POST['password'];
+  session_start();
+  // Obtengo los datos cargados en el formulario de login.
+  $email = $_POST['user'];
+  $password = $_POST['password'];
 
   // Datos para conectar a la base de datos.
   include_once '../conexion.php';
@@ -10,28 +10,27 @@
 
 
   // Consulta segura para evitar inyecciones SQL.
-    $query = "SELECT * FROM usuario WHERE username = '".$email."' AND password= '".$password."'";
-     $result = $conexion->query($query);
-     echo $query;
-     $usuario;
-     if(mysqli_num_rows($result)>0){
-       foreach ($result as $user) {
-         $usuario = $user;
-       }
-        $verRango = "SELECT * from rol WHERE id= ".$usuario['rol'];
-        $rangoRS = $conexion->query($verRango);
-        $rango;
-        foreach ($rangoRS as $rs) {
-          $rango = $rs;
-        }
-        $_SESSION['nombre'] = $usuario['nombre'];
-        $_SESSION['rango'] = $rango['tipo'];
+  $query = "SELECT * FROM usuario WHERE username = '".$email."' AND password= '".$password."'";
+  $result = $conexion->query($query);
+  $usuario;
+  if(mysqli_num_rows($result)>0){
+    foreach ($result as $user) {
+      $usuario = $user;
+    }
+    $verRango = "SELECT * from rol WHERE id= ".$usuario['rol'];
+    $rangoRS = $conexion->query($verRango);
+    $rango;
+    foreach ($rangoRS as $rs) {
+      $rango = $rs;
+    }
+    $_SESSION['username'] = $usuario['username'];
+    $_SESSION['nombre'] = $usuario['nombre'];
+    $_SESSION['rango'] = $rango['tipo'];
         // Guardo en la sesión el rango del usuario.
 
-        header("Location: ../index.php");
-      }else{
-
-        echo '
+    header("Location: ../index.php");
+  }else{
+    echo '
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,7 +50,5 @@
               </form>
           </div>
         </body>'; //si no existe el usuario
-      }
-
-
+  }
 ?>

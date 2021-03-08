@@ -2,6 +2,7 @@
   if (isset($_POST['date'])) {
     $nivel;
     $query;
+    $fecha = $_POST['date'];
     include_once 'buscar/conseguir_nahual.php';
     include_once 'buscar/conseguir_energia.php';
     header("location: CalendarioCholqij.php"."?nahual=".$query."&nivel=".$nivel."#nahual".$query);

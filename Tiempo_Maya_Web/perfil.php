@@ -1,3 +1,26 @@
+<?php session_start();
+  include_once 'conexion.php';
+  $user;
+  $nahual;
+  $nivel;
+  if(!isset($_SESSION['nombre'])){
+    header("Location: index.php");
+  } else {
+    $query = "SELECT * FROM usuario WHERE username='".$_SESSION['username']."'";
+    $resultado = $conexion->query($query);
+    if($resultado->num_rows > 0) {
+      $user = $resultado->fetch_assoc();
+    }
+    $fecha=$user['nacimiento'];
+    include_once 'buscar/conseguir_nahual.php';
+    include_once 'buscar/conseguir_energia.php';
+    $r2 = $conexion->query("SELECT nombre FROM nahual WHERE id=".$query);
+    if($r2->num_rows > 0) {
+      $rnahual = $r2->fetch_assoc();
+    }
+    $nahual = $rnahual['nombre'];
+  }
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +33,6 @@
   <link href="lib/animate/animate.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
   <link href="css/Perfil.css" rel="stylesheet">
-
-
 </head>
 
 <body>
@@ -30,27 +51,24 @@
                   <li>
                       <div class="profile-name">
                           <strong>
-                              <a href="#">Luis Ruiz</a>
+                              <a href="#"><?php echo $user['nombre'] . " " . $user['apellido']; ?></a>
                               <a href="#" class="user-status is-online tooltip-primary" data-toggle="tooltip" data-placement="top" data-original-title="Online"></a>
                           </strong>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="profile-stat">
+                          <h3 style="color: white;"><?php echo $nahual; ?></h3>
                           <span>
-                              <a href="#">Nahual Noj</a>
+                              <a href="#">Nivel: <?php echo $nivel; ?></a>
                           </span>
                       </div>
                   </li>
                   <li>
                       <div class="profile-stat">
-                          <h3 style="color: white;">643</h3>
+                          <h3 style="color: white;"><?php echo $user['username']; ?></h3>
                           <span>
-                              <a href="#">Publicaciones</a>
-                          </span>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="profile-stat">
-                          <h3 style="color: white;">108</h3>
-                          <span>
-                              <a href="#">Me gusta</a>
+                              <a href="#">username</a>
                           </span>
                       </div>
                   </li>
@@ -64,26 +82,29 @@
                       <li>
 
                               <i class="entypo-location"></i>
-                            <strong>  luisRuiz@tiempoMaya.com </strong>
+                            <strong>  <?php echo $user['email']; ?> </strong>
 
                       </li>
                       <li>
 
                               <i class="entypo-location"></i>
-                              +502 52364178
+                              <?php echo $user['telefono']; ?>
 
                       </li>
                       <li>
 
                               <i class="entypo-location"></i>
-                              <span style="color: black;">Historiador</span>
-
+                              <span style="color: black;"><?php
+                                $r3 = $conexion->query("SELECT tipo FROM rol WHERE id=".$user['rol']);
+                                if($r3->num_rows > 0) {
+                                  $rol = $r3->fetch_assoc();
+                                  echo $rol['tipo'];
+                                }
+                               ?></span>
                       </li>
                       <li>
-
                       </li>
                   </ul>
-
                   <ul class="nav nav-tabs">
 
                       <li>
@@ -96,110 +117,9 @@
 
   </div>
   </div>
-  <a href="#Comentarios" class="btn-get-started">Ver Comentarios</a>
 </div>
-
-
 </section>
-
-<section id=Comentarios class="profile-feed  ">
-<div class="container">
-  <hr>
-    <h1>Comentarios</h1>
-
-
-    <div class="profile-stories " style="background:  rgb(255,255,255);">
-        <article class="story wow fadeInUp ">
-            <aside class="user-thumb">
-                <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" width="44" alt="" class="img-circle"> </a>
-            </aside>
-            <div class="story-content">
-                <header>
-                    <div class="publisher">
-                        <a href="#">Daniel Fernandez</a> posteo un comentario
-                    </div>
-                    <div class="story-type">
-                        <i class="entypo-feather"></i>
-                    </div>
-                </header>
-                <div class="story-main-content">
-                    <p>Las publicaciones que haces son muy interesantes</p>
-                </div>
-                <footer>
-                    <a href="#" class="liked">
-                        <i class="entypo-heart"></i>
-                        Me gusta
-                        <span>(8)</span>
-                    </a>
-                </footer>
-
-                <hr>
-            </div>
-        </article>
-        <article class="story wow fadeInUp">
-            <aside class="user-thumb">
-                <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" width="44" alt="" class="img-circle"> </a>
-            </aside>
-            <div class="story-content">
-                <header>
-                    <div class="publisher">
-                        <a href="#">Ericksson Hernandez</a> posteo un comentario
-                    </div>
-                    <div class="story-type">
-                        <i class="entypo-feather"></i>
-                    </div>
-                </header>
-                <div class="story-main-content">
-                    <p>Interesantes puntos de vista acerca del Tiempo Maya</p>
-                </div>
-                <footer>
-                    <a href="#" class="liked">
-                        <i class="entypo-heart"></i>
-                        Me gusta
-                        <span>(3)</span>
-                    </a>
-                </footer>
-
-                <hr>
-            </div>
-        </article>
-        <article class="story wow fadeInUp">
-            <aside class="user-thumb">
-                <a href="#">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" width="44" alt="" class="img-circle"> </a>
-            </aside>
-            <div class="story-content">
-                <header>
-                    <div class="publisher">
-                        <a href="#">Sebastian Sum </a> posteo un comentario
-                    </div>
-                    <div class="story-type">
-                        <i class="entypo-feather"></i>
-                    </div>
-                </header>
-                <div class="story-main-content">
-                    <p>La publicacion acerca del Calendario Haab esta muy interesante</p>
-                </div>
-                <footer>
-                    <a href="#" class="liked">
-                        <i class="entypo-heart"></i>
-                        Me gusta
-                        <span>(8)</span>
-                    </a>
-                </footer>
-
-                <hr>
-            </div>
-        </article>
-
-    </div>
-  </div>
-</section>
-
 <footer id="footer">
-
   <div class="container">
     <div class="copyright">
       &copy; Copyright <strong>Teoria de Sistemas</strong>. Derechos Reservados
@@ -216,9 +136,5 @@
   <script src="lib/superfish/hoverIntent.js"></script>
   <script src="lib/superfish/superfish.min.js"></script>
   <script src="js/main.js"></script>
-
-
-
-
 </body>
 </html>

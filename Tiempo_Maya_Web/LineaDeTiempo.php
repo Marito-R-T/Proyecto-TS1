@@ -57,8 +57,21 @@ $idhecho = -1;
             <div class="periods-container">
               <?php foreach ($resultado as $hecho) { ?>
                 <section class="period-single" period="<?php echo "period" . $hecho['id']; ?>">
-                  <h4 class="year"><?php echo $hecho['fechaInicio']; ?></h4>
-                  <h2 class="title"><?php echo $hecho['titulo']; ?></h2>
+                  <?php if (isset($_SESSION['nombre']) && $_SESSION['rango']=="ADMIN") { ?>
+                    <div class="d-flex bd-highlight">
+                      <div class="p-2 w-100 bd-highlight">
+                        <h2 class="title"><?php echo $hecho['titulo']; ?></h2>
+                      </div>
+                      <div class="p-2 flex-shrink-1 bd-highlight">
+                        <form class="" action="backend/eliminarHecho.php" method="post">
+                          <input type="hidden" name="idHecho" value="<?php echo $hecho['id']; ?>">
+                          <button type="submit" class="btn btn-danger">X</button>
+                        </form>
+                      </div>
+                    </div>
+                  <?php } else { ?>
+                    <h2 class="title"><?php echo $hecho['titulo']; ?></h2>
+                  <?php } ?>
                   <h3><?php echo $hecho['fechaInicio'] . " -> " . $hecho['fechaFinalizacion']; ?></h3>
                   <p><?php echo $hecho['descripcion']; ?></p>
                 </section>
@@ -85,13 +98,27 @@ $idhecho = -1;
                 $resultado2 = $conexion->query($subHecho);
                 foreach ($resultado2 as $sub) { ?>
                 <section class="card-single" period="<?php echo "period".$hecho['id']; ?>">
-                  <h4 class="year"><?php echo $sub['fecha']; ?></h4>
+                  <?php if (isset($_SESSION['nombre']) && $_SESSION['rango']=="ADMIN") { ?>
+                    <div class="d-flex bd-highlight">
+                      <div class="p-2 w-100 bd-highlight">
+                        <h4 class="year"><?php echo $sub['fecha']; ?></h4>
+                      </div>
+                      <div class="p-2 flex-shrink-1 bd-highlight">
+                        <form class="" action="backend/eliminarSub.php" method="post">
+                          <input type="hidden" name="idSub" value="<?php echo $sub['idSubHecho']; ?>">
+                          <input type="hidden" name="idHecho" value="<?php echo $hecho['id']; ?>">
+                          <button type="submit" class="btn btn-danger">X</button>
+                        </form>
+                      </div>
+                    </div>
+                  <?php } else { ?>
+                    <h4 class="year"><?php echo $sub['fecha']; ?></h4>
+                  <?php } ?>
                   <h2 class="title"><?php echo $sub['titulo']; ?></h2>
                   <div class="content">
-                    <?php if (!is_null($sub['urlImagen'])):
-                      header("Content-type: image/jpg");
-                      echo $sub['urlImagen'];
-                       endif; ?>
+                    <?php if (!is_null($sub['urlImagen'])){ ?>
+                        <img src="backend/vistaSub.php?id=<?php echo $sub['idSubHecho']; ?>" alt="Img blob desde MySQL" width="600">
+                    <?php } ?>
                     <p><?php echo $sub['texto']; ?></p>
                   </div>
                 </section>

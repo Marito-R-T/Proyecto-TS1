@@ -8,6 +8,7 @@
     <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/inicioSesion.css" >
     <title>Main</title>
 </head>
 <body>
@@ -35,30 +36,90 @@
             <?php include 'BarradeNavegacion.php'; ?>>
         </header>
     </div>
-    <div class="main-container">
-        <form method="POST" action="./backend/inicioSesion.php">
-            <div class="form-group">
-                <h1 style="text-align: center;">Iniciar Sesion</h1>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+      <div class="form">
+        <ul class="tab-group">
+          <li class="tab active"><a href="#login">Loguearse</a></li>
+          <li class="tab"><a href="#signup">Registrarse</a></li>
+        </ul>
+        <div class="tab-content">
+          <div id="login">
+            <h1>Iniciar Sesion</h1>
+            <form action="backend/inicioSesion.php" method="post">
+              <div class="field-wrap">
+                <label>
+                  Username<span class="req">*</span>
+                </label>
+                <input type="text" name="user" required autocomplete="off"/>
+              </div>
+              <div class="field-wrap">
+                <label>
+                  Contraseña<span class="req">*</span>
+                </label>
+                <input type="password" name="password" required autocomplete="off"/>
+              </div>
+              <button class="button button-block"/>Loguearse</button>
+            </form>
+          </div>
+          <div id="signup">
+            <h1>Registrarse</h1>
+            <form action="backend/registrarse.php" method="post">
+            <div class="top-row">
+              <div class="field-wrap">
+                <label>
+                  Nombre<span class="req">*</span>
+                </label>
+                <input type="text" name="nombre" required autocomplete="off" />
+              </div>
+              <div class="field-wrap">
+                <label>
+                  Apellido<span class="req">*</span>
+                </label>
+                <input type="text" name="apellido" required autocomplete="off"/>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="InputUser">Usuario</label>
-              <input type="text" name="user" class="form-control" id="InputUser" required aria-describedby="emailHelp">
+            <div class="field-wrap">
+              <label>
+                Username<span class="req">*</span>
+              </label>
+              <input type="text" name="username" required autocomplete="off"/>
             </div>
-            <div class="form-group">
-              <label for="InputPass">Contraseña</label>
-              <input type="password" name="password" class="form-control" required id="InputPass">
+            <div class="field-wrap">
+              <label>
+                Email<span class="req">*</span>
+              </label>
+              <input type="email" name="email" required autocomplete="off"/>
             </div>
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="checkPass">
-              <label class="form-check-label" for="checkPass">Recordar contraseña</label>
+            <div class="field-wrap">
+              <input type="date" name="fecha" required autocomplete="off"/>
             </div>
-            <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
-          </form>
-    </div>
+            <div class="field-wrap">
+              <label>
+                Telefono
+              </label>
+              <input type="text" name="telefono" autocomplete="off"/>
+            </div>
+            <div class="field-wrap">
+              <label>
+                Contraseña<span class="req">*</span>
+              </label>
+              <input type="password" name="password" required autocomplete="off"/>
+            </div>
+            <button type="submit" class="button button-block"/>Registrarse</button>
+            </form>
+          </div>
+        </div><!-- tab-content -->
+      </div> <!-- /form -->
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/jquery/jquery-migrate.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="lib/easing/easing.min.js"></script>
+  <script src="js/inicioSesion.js"></script>
   <script src="lib/wow/wow.min.js"></script>
   <script src="lib/waypoints/waypoints.min.js"></script>
   <script src="lib/counterup/counterup.min.js"></script>

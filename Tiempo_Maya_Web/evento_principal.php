@@ -1,8 +1,12 @@
 <?php
 session_start();
+if(!isset($_SESSION['nombre']) || $_SESSION['rango'] != "ADMIN") {
+  header("Location: ./LineaDeTiempo.php");
+}
 include_once 'conexion.php';
 $sql = "SELECT * FROM hechohistorico;";
 $resultado = $conexion->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +32,7 @@ $resultado = $conexion->query($sql);
       <br>
       <br>
       <div class="container">
-        <form class="" action="backend/evento_principal.php" method="post">
+        <form class="" action="backend/evento_principal.php" method="post" enctype="multipart/form-data">
           <hr style="width:75%;">
           <h3>
             <span id="definir_hecho">Hecho</span>
@@ -67,10 +71,10 @@ $resultado = $conexion->query($sql);
             <span class="input-group-text">Texto</span>
             <textarea class="form-control" aria-label="With textarea" name="textoS" id="textoS" required></textarea>
           </div>
-          <!--<div class="input-group mb-3">
+          <div class="input-group mb-3">
             <label class="input-group-text" for="inputImage">Imagen</label>
             <input type="file" class="form-control" name="inputImage" id="inputImage" accept="image/*">
-          </div>-->
+          </div>
           <div class="d-grid gap-2">
             <button class="btn btn-outline-success" type="submit">Agregar</button>
           </div>
